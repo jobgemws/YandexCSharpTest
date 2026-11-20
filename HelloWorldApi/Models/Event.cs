@@ -1,0 +1,37 @@
+namespace HelloWorldApi.Models;
+
+/// <summary>
+/// Доменная модель события
+/// </summary>
+public class Event
+{
+    /// <summary>
+    /// Уникальный идентификатор события
+    /// </summary>
+    /// <example>3fa85f64-5717-4562-b3fc-2c963f66afa6</example>
+    public required Guid Id { get; set; }
+
+    /// <summary>
+    /// Название события
+    /// </summary>
+    /// <example>Ежедневный дейлик</example>
+    public required string Title { get; set; }
+
+    /// <summary>
+    /// Описание события (необязательное)
+    /// </summary>
+    /// <example>Обсуждение текущих задач</example>
+    public string? Description { get; set; }
+
+    /// <summary>
+    /// Время начала события
+    /// </summary>
+    /// <example>2026-11-17T11:00:00</example>
+    public required DateTime StartAt { get; set; }
+
+    /// <summary>
+    /// Время окончания события (должно быть позже времени начала)
+    /// </summary>
+    /// <example>2026-11-17T12:00:00</example>
+    public required DateTime EndAt { get; set; }
+}
