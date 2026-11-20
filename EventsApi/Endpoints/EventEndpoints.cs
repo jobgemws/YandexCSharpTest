@@ -1,8 +1,8 @@
-using HelloWorldApi.Filters;
-using HelloWorldApi.Models;
-using HelloWorldApi.Services;
+using EventsApi.Filters;
+using EventsApi.Models;
+using EventsApi.Services;
 
-namespace HelloWorldApi.Endpoints;
+namespace EventsApi.Endpoints;
 
 /// <summary>
 /// Регистрация REST-эндпоинтов для работы с событиями

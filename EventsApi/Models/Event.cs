@@ -1,4 +1,4 @@
-namespace HelloWorldApi.Models;
+namespace EventsApi.Models;
 
 /// <summary>
 /// Доменная модель события
@@ -24,13 +24,13 @@ public class Event
     public string? Description { get; set; }
 
     /// <summary>
-    /// Время начала события
+    /// Время начала события (в UTC)
     /// </summary>
     /// <example>2026-11-17T11:00:00</example>
     public required DateTime StartAt { get; set; }
 
     /// <summary>
-    /// Время окончания события (должно быть позже времени начала)
+    /// Время окончания события (в UTC, должно быть позже времени начала)
     /// </summary>
     /// <example>2026-11-17T12:00:00</example>
     public required DateTime EndAt { get; set; }

@@ -1,4 +1,4 @@
-namespace HelloWorldApi.Models;
+namespace EventsApi.Models;
 
 /// <summary>
 /// Модель события, возвращаемая в ответах API
@@ -24,13 +24,13 @@ public class EventResponse
     public string? Description { get; set; }
 
     /// <summary>
-    /// Время начала события
+    /// Время начала события (в UTC)
     /// </summary>
     /// <example>2026-11-17T11:00:00</example>
     public DateTime StartAt { get; set; }
 
     /// <summary>
-    /// Время окончания события
+    /// Время окончания события (в UTC)
     /// </summary>
     /// <example>2026-11-17T12:00:00</example>
     public DateTime EndAt { get; set; }

@@ -1,5 +1,5 @@
-using HelloWorldApi.Endpoints;
-using HelloWorldApi.Services;
+using EventsApi.Endpoints;
+using EventsApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

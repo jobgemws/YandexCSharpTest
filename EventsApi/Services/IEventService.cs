@@ -1,6 +1,6 @@
-using HelloWorldApi.Models;
+using EventsApi.Models;
 
-namespace HelloWorldApi.Services;
+namespace EventsApi.Services;
 
 /// <summary>
 /// Контракт сервиса для работы с событиями

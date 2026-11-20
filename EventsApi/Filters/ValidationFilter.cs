@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace HelloWorldApi.Filters;
+namespace EventsApi.Filters;
 
 /// <summary>
 /// Фильтр, выполняющий валидацию входной модели перед выполнением эндпоинта

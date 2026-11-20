@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
-using HelloWorldApi.Models;
+using EventsApi.Models;
 
-namespace HelloWorldApi.Services;
+namespace EventsApi.Services;
 
 /// <summary>
 /// Реализация сервиса событий с хранением в памяти
@@ -20,7 +20,7 @@ public class EventService : IEventService
         cancellationToken.ThrowIfCancellationRequested();
 
         IReadOnlyList<Event> events = _events.Values
-            .OrderBy(e => e.StartAt)
+            .OrderBy(e => e.StartAt.ToUtc())
             .ToList();
 
         return Task.FromResult(events);
@@ -55,8 +55,8 @@ public class EventService : IEventService
             Id = Guid.NewGuid(),
             Title = dto.Title!,
             Description = dto.Description,
-            StartAt = dto.StartAt!.Value,
-            EndAt = dto.EndAt!.Value,
+            StartAt = dto.StartAt!.Value.ToUtc(),
+            EndAt = dto.EndAt!.Value.ToUtc(),
         };
 
         _events[@event.Id] = @event;
@@ -73,25 +73,32 @@ public class EventService : IEventService
     /// <returns>Обновлённое событие либо <see langword="null"/>, если оно не найдено</returns>
     public Task<Event?> UpdateAsync(Guid id, EventDto dto, CancellationToken cancellationToken = default)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        if (!_events.ContainsKey(id))
+        while (true)
         {
-            return Task.FromResult<Event?>(null);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            if (!_events.TryGetValue(id, out var existing))
+            {
+                return Task.FromResult<Event?>(null);
+            }
+
+            var @event = new Event
+            {
+                Id = id,
+                Title = dto.Title!,
+                Description = dto.Description,
+                StartAt = dto.StartAt!.Value.ToUtc(),
+                EndAt = dto.EndAt!.Value.ToUtc(),
+            };
+
+            // TryUpdate сравнивает текущее значение со ссылкой existing: если событие
+            // удалили или заменили между TryGetValue и TryUpdate, запись не произойдёт
+            // и мы повторим попытку с актуальным состоянием словаря
+            if (_events.TryUpdate(id, @event, existing))
+            {
+                return Task.FromResult<Event?>(@event);
+            }
         }
-
-        var @event = new Event
-        {
-            Id = id,
-            Title = dto.Title!,
-            Description = dto.Description,
-            StartAt = dto.StartAt!.Value,
-            EndAt = dto.EndAt!.Value,
-        };
-
-        _events[id] = @event;
-
-        return Task.FromResult<Event?>(@event);
     }
 
     /// <summary>
